@@ -1,0 +1,9 @@
+plugin:
+  prefix: '&c&lMURDER'
+  timeLeft: 10
+  lobby-world: "academy"
+  min-players: 1
+  max-players: 16
+messages:
+  no-perm: '&cVocẽ não possui permissão para executar esse comando!'
+  console-error: '&cVocẽ precisa ser um jogador para executar esse comando!'

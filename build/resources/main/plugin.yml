@@ -1,0 +1,17 @@
+name: Murder
+version: '1.0-SNAPSHOT'
+main: com.pwdim.murder.Murder
+description: §aMinigame Murder
+depend:
+  - SlimeWorldManager
+commands:
+  game:
+    description: game
+    permission: arcade.manage
+  murder:
+    description: play murder
+    permission: ""
+    aliases:
+      - play
+      - playmurder
+      - murderjoin
