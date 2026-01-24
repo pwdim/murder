@@ -67,10 +67,16 @@ public class GameManager {
                 new GameStartCountdownTask(this, arena).runTaskTimer(plugin, 0, 20);
                 break;
             case PLAYING:
-                arena.broadcastArena("&aO jogo iniciou!");
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    arena.broadcastArena("&aO jogo iniciou!");
+                }, 20L);
                 break;
             case ENDING:
                 Bukkit.broadcastMessage(ColorUtil.color("Game ENDING"));
+
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    plugin.getGameManager().setGameState(arena, GameState.RESTARTING);
+                }, 20L*30);
                 break;
             case RESTARTING:
                 plugin.getArenaManager().finishArena(arena.getId());

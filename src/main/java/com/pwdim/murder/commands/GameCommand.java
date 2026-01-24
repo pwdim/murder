@@ -53,15 +53,23 @@ public class GameCommand implements CommandExecutor {
 
         switch (subCommand){
             case "start":
-                gameManager.setGameState(arenaAtual, GameState.STARTING);
-                p.sendMessage(ColorUtil.color("&aForçando início da arena: " + arenaAtual.getId()));
+                if (!(arenaAtual.getState() == GameState.WAITING)){
+                    p.sendMessage(ColorUtil.color("&cAguarde até o GameState ser WAITING &o" + arenaAtual.getState().toString()));
+                } else {
+                    gameManager.setGameState(arenaAtual, GameState.STARTING);
+                    p.sendMessage(ColorUtil.color("&aForçando início da arena: " + arenaAtual.getId()));
+                }
                 break;
             case "stop":
-                gameManager.setGameState(arenaAtual, GameState.ENDING);
-                p.sendMessage(ColorUtil.color("&cForçando encerramento da arena."));
+                if (!(arenaAtual.getState() == GameState.PLAYING)){
+                    p.sendMessage(ColorUtil.color("&cAguarde até o GameState ser PLAYING &o" + arenaAtual.getState().toString()));
+                } else {
+                    gameManager.setGameState(arenaAtual, GameState.ENDING);
+                    p.sendMessage(ColorUtil.color("&cForçando encerramento da arena."));
+                }
                 break;
             default:
-                p.sendMessage(ColorUtil.color("&cSubcomando inválido."));
+                p.sendMessage(ColorUtil.color("&cUse: /game <start/stop>"));
                 break;
         }
 
