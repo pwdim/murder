@@ -14,6 +14,7 @@ public class GameManager {
     private final Murder plugin;
     private final BlockManager blockManager;
     private final PlayerManager playerManager;
+    private GameStartCountdownTask gameStartCountdownTask;
 
     public GameManager(Murder plugin) {
         this.plugin = plugin;
@@ -23,6 +24,7 @@ public class GameManager {
     }
 
     public void setGameState(Arena arena, GameState arenaState){
+        this.gameStartCountdownTask = new GameStartCountdownTask(this, arena);
         if (!arena.getState().canTransitionTo(arenaState)){
             return;
         }
