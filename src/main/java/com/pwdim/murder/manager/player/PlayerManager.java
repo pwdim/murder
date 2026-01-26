@@ -81,7 +81,9 @@ public class PlayerManager {
         }
         if ((arena.getPlayers().size() < ConfigUtils.getMinPlayers()) && (arena.getState() == GameState.STARTING)){
             plugin.getGameManager().setGameState(arena, GameState.WAITING);
-            arena.broadcastArena(ColorUtil.color("&cJogadores insuficientes, contador cancelado!"));
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                arena.broadcastArena(ColorUtil.color("&cJogadores insuficientes, contador cancelado!"));
+            }, 25L);
         }
     }
 }
