@@ -1,12 +1,14 @@
 package com.pwdim.murder.manager.arena;
 
 import com.pwdim.murder.Murder;
+import com.pwdim.murder.manager.game.GameManager;
+import com.pwdim.murder.manager.game.GameState;
 import com.pwdim.murder.utils.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class ArenaManager {

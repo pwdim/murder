@@ -1,12 +1,10 @@
 package com.pwdim.murder.manager.arena;
 
-import com.grinderwolf.swm.api.world.SlimeWorld;
 import com.pwdim.murder.manager.game.GameState;
 import com.pwdim.murder.utils.ColorUtil;
+import com.pwdim.murder.utils.MessageUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.World;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -71,8 +69,8 @@ public class Arena {
         players.forEach(uuid -> Bukkit.getPlayer(uuid).sendMessage(ColorUtil.color(msg)));
     }
 
-    public void titleArena(String msg){
-        players.forEach(uuid -> Bukkit.getPlayer(uuid).sendTitle(ColorUtil.color(msg), null));
+    public void titleArena(String title, String subtitle, int fadeIn, int stay, int fadeOut){
+        players.forEach(uuid -> MessageUtils.sendTitle(Bukkit.getPlayer(uuid), title, subtitle, fadeIn, stay, fadeOut));
     }
 
 }

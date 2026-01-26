@@ -1,6 +1,7 @@
 package com.pwdim.murder.manager.player;
 
 import com.pwdim.murder.Murder;
+import com.pwdim.murder.itens.LobbyItem;
 import com.pwdim.murder.manager.arena.Arena;
 import com.pwdim.murder.manager.arena.ArenaManager;
 import com.pwdim.murder.manager.game.GameManager;
@@ -37,16 +38,28 @@ public class PlayerManager {
                 .orElse(null);
 
         if (bestArena != null) {
+            player.sendMessage(ColorUtil.color("&aConectando..."));
             teleportToArena(player, bestArena);
+            LobbyItem.giveItem(player);
         } else {
             player.sendMessage(ColorUtil.color("&aConectando..."));
 
 
             manager.setupNewArena("builds", (newArena) -> {
                 teleportToArena(player, newArena);
+                LobbyItem.giveItem(player);
                 checkStart(newArena);
             });
         }
+    }
+
+    public void sendToLobby(Player player, Arena arena){
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            arena.getPlayers().remove(player.getUniqueId());
+            player.teleport(MessageUtils.getLobby());
+
+            arena.broadcastArena("&b" + player.getName() + " &esaiu da partida &7(&a" + arena.getPlayers().size() + "/"+MessageUtils.getMaxPLayers()+"&7)");
+        });
     }
 
     private void teleportToArena(Player player, Arena arena){

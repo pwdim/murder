@@ -57,7 +57,8 @@ public class GameCommand implements CommandExecutor {
                     p.sendMessage(ColorUtil.color("&cAguarde até o GameState ser WAITING &o" + arenaAtual.getState().toString()));
                 } else {
                     gameManager.setGameState(arenaAtual, GameState.STARTING);
-                    p.sendMessage(ColorUtil.color("&aForçando início da arena: " + arenaAtual.getId()));
+                    p.sendMessage(ColorUtil.color("&aForçando início da arena: &b" + arenaAtual.getId()));
+                    p.sendMessage(arenaAtual.getPlayers().toString());
                 }
                 break;
             case "stop":
@@ -65,7 +66,7 @@ public class GameCommand implements CommandExecutor {
                     p.sendMessage(ColorUtil.color("&cAguarde até o GameState ser PLAYING &o" + arenaAtual.getState().toString()));
                 } else {
                     gameManager.setGameState(arenaAtual, GameState.ENDING);
-                    p.sendMessage(ColorUtil.color("&cForçando encerramento da arena."));
+                    p.sendMessage(ColorUtil.color("&cForçando encerramento da arena: &b" + arenaAtual.getId()));
                 }
                 break;
             default:

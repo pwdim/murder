@@ -1,27 +1,19 @@
 package com.pwdim.murder.manager.game;
 
-import com.pwdim.murder.Murder;
-import com.pwdim.murder.manager.arena.Arena;
-import com.pwdim.murder.manager.arena.ArenaManager;
-import com.pwdim.murder.manager.player.PlayerManager;
-import com.pwdim.murder.manager.blocks.BlockManager;
-import com.pwdim.murder.tasks.GameStartCountdownTask;
-import com.pwdim.murder.utils.ColorUtil;
-import org.bukkit.Bukkit;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import com.pwdim.murder.Murder;
+import com.pwdim.murder.itens.LobbyItem;
+import com.pwdim.murder.manager.arena.Arena;
+import com.pwdim.murder.manager.blocks.BlockManager;
+import com.pwdim.murder.manager.player.PlayerManager;
+import com.pwdim.murder.tasks.GameStartCountdownTask;
+import org.bukkit.Bukkit;
 
 public class GameManager {
 
     private final Murder plugin;
-
-    private GameState gameState = GameState.WAITING;
-
     private final BlockManager blockManager;
     private final PlayerManager playerManager;
-
-    private GameStartCountdownTask gameStartCountdownTask;
 
     public GameManager(Murder plugin) {
         this.plugin = plugin;
@@ -30,63 +22,38 @@ public class GameManager {
         this.playerManager = new PlayerManager(this, plugin);
     }
 
-    public void setGameState(Arena arena, GameState gameState){
-        if (arena.getState() == gameState) return;
+    public void setGameState(Arena arena, GameState arenaState){
+        if (!arena.getState().canTransitionTo(arenaState)){
+            return;
+        }
+        arena.setState(arenaState);
 
-        arena.setState(gameState);
-        // WAITING > STARTING > PLAYING > ENDING > RESTARTING
-        if (this.gameState == GameState.WAITING && gameState == GameState.PLAYING) return;
-        if (this.gameState == GameState.WAITING && gameState == GameState.ENDING) return;
-        if (this.gameState == GameState.WAITING && gameState == GameState.RESTARTING) return;
-
-        if (this.gameState == GameState.STARTING && gameState == GameState.WAITING) return;
-        if (this.gameState == GameState.STARTING && gameState == GameState.ENDING) return;
-        if (this.gameState == GameState.STARTING && gameState == GameState.RESTARTING) return;
-
-        if (this.gameState == GameState.PLAYING && gameState == GameState.WAITING) return;
-        if (this.gameState == GameState.PLAYING && gameState == GameState.STARTING) return;
-        if (this.gameState == GameState.PLAYING && gameState == GameState.RESTARTING) return;
-
-        if (this.gameState == GameState.ENDING && gameState == GameState.WAITING) return;
-        if (this.gameState == GameState.ENDING && gameState == GameState.STARTING) return;
-        if (this.gameState == GameState.ENDING && gameState == GameState.PLAYING) return;
-
-        if (this.gameState == GameState.RESTARTING && gameState == GameState.STARTING) return;
-        if (this.gameState == GameState.RESTARTING && gameState == GameState.PLAYING) return;
-        if (this.gameState == GameState.RESTARTING && gameState == GameState.ENDING) return;
-
-        this.gameState = gameState;
-
-        switch (gameState){
+        switch (arenaState){
             case WAITING:
-
-
-
+                arena.getPlayers().forEach(uuid -> LobbyItem.giveItem(Bukkit.getPlayer(uuid)));
                 break;
             case STARTING:
                 new GameStartCountdownTask(this, arena).runTaskTimer(plugin, 0, 20);
                 break;
             case PLAYING:
                 Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    arena.getPlayers().forEach(uuid -> LobbyItem.removeItem(Bukkit.getPlayer(uuid)));
                     arena.broadcastArena("&aO jogo iniciou!");
                 }, 20L);
                 break;
             case ENDING:
-                Bukkit.broadcastMessage(ColorUtil.color("Game ENDING"));
+                arena.titleArena("&c&lFIM DE JOGO!", "&eObrigado por jogar!", 1, 1000, 300);
+                arena.getPlayers().forEach(uuid -> LobbyItem.giveItem(Bukkit.getPlayer(uuid)));
 
-                Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                    plugin.getGameManager().setGameState(arena, GameState.RESTARTING);
-                }, 20L*30);
+                Bukkit.getScheduler().runTaskLater(plugin, () -> plugin.getGameManager().setGameState(arena, GameState.RESTARTING), 20L*15);
                 break;
             case RESTARTING:
+                arena.getPlayers().forEach(uuid -> LobbyItem.removeItem(Bukkit.getPlayer(uuid)));
                 plugin.getArenaManager().finishArena(arena.getId());
                 break;
             default:
                 setGameState(arena, GameState.WAITING);
-                Bukkit.broadcastMessage(ColorUtil.color("Default"));
                 break;
-
-
         }
     }
 

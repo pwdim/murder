@@ -1,7 +1,9 @@
 package com.pwdim.murder.commands;
 
 import com.pwdim.murder.Murder;
+import com.pwdim.murder.manager.game.GameState;
 import com.pwdim.murder.manager.player.PlayerManager;
+import com.pwdim.murder.utils.ColorUtil;
 import com.pwdim.murder.utils.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,7 +25,16 @@ public class PlayCommand implements CommandExecutor {
         }
 
         Player p = (Player) sender;
-        plugin.getPlayerManager().sendToArena(p);
+        boolean inGame = plugin.getArenaManager().getActiveArenas().values().stream()
+                .anyMatch(arena -> arena.getPlayers().contains(p.getUniqueId()));
+
+        if (inGame) {
+            p.sendMessage(ColorUtil.color("&cVocê já está em partida"));
+        } else {
+            plugin.getPlayerManager().sendToArena(p);
+        }
+
+
 
 
         return true;

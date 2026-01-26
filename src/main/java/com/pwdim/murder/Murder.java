@@ -2,6 +2,7 @@ package com.pwdim.murder;
 
 import com.pwdim.murder.commands.GameCommand;
 import com.pwdim.murder.commands.PlayCommand;
+import com.pwdim.murder.itens.LobbyItem;
 import com.pwdim.murder.listeners.BuildListeners;
 import com.pwdim.murder.manager.arena.ArenaEgine;
 import com.pwdim.murder.manager.arena.ArenaManager;
@@ -32,6 +33,7 @@ public final class Murder extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new BuildListeners(gameManager), this);
         getServer().getPluginManager().registerEvents(new ArenaEgine(this), this);
+        getServer().getPluginManager().registerEvents(new LobbyItem(this), this);
 
         getCommand("game").setExecutor(new GameCommand(this, gameManager));
         getCommand("murder").setExecutor(new PlayCommand(this));
