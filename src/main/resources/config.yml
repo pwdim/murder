@@ -5,6 +5,8 @@ plugin:
   min-players: 1
   max-players: 16
   map-spawn: [0, 69, 36, -180, 0]
+  game-map: "builds"
 messages:
   no-perm: '&cVocẽ não possui permissão para executar esse comando!'
   console-error: '&cVocẽ precisa ser um jogador para executar esse comando!'
+  already-lobby: '&eVocẽ já está no lobby!'

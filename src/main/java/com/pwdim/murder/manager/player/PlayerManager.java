@@ -11,7 +11,7 @@ import com.pwdim.murder.utils.ConfigUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
+
 import java.util.Comparator;
 
 
@@ -44,7 +44,7 @@ public class PlayerManager {
             player.sendMessage(ColorUtil.color("&aConectando..."));
 
 
-            manager.setupNewArena("builds", (newArena) -> {
+            manager.setupNewArena(ConfigUtils.getGameMap().getWorld().getName(), (newArena) -> {
                 teleportToArena(player, newArena);
                 LobbyItem.giveItem(player);
                 checkStart(newArena);

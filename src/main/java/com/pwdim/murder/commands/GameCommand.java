@@ -57,7 +57,6 @@ public class GameCommand implements CommandExecutor {
                 } else {
                     gameManager.setGameState(arenaAtual, GameState.STARTING);
                     p.sendMessage(ColorUtil.color("&aForçando início da arena: &b" + arenaAtual.getId()));
-                    p.sendMessage(arenaAtual.getPlayers().toString());
                 }
                 break;
             case "stop":

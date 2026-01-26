@@ -26,12 +26,11 @@ public class PlayCommand implements CommandExecutor {
         boolean inGame = plugin.getArenaManager().getActiveArenas().values().stream()
                 .anyMatch(arena -> arena.getPlayers().contains(p.getUniqueId()));
 
-        if (inGame) {
-            p.sendMessage(ColorUtil.color("&cVocê já está em partida"));
-        } else {
+        if (!inGame) {
             plugin.getPlayerManager().sendToArena(p);
+            return true;
         }
-
+        p.sendMessage(ColorUtil.color("&cVocê já está em partida"));
 
 
 

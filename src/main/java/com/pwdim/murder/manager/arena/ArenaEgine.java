@@ -6,13 +6,11 @@ import com.grinderwolf.swm.api.world.SlimeWorld;
 import com.grinderwolf.swm.api.world.properties.SlimeProperties;
 import com.grinderwolf.swm.api.world.properties.SlimePropertyMap;
 import com.pwdim.murder.Murder;
+import com.pwdim.murder.utils.ConfigUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.World;
-import org.bukkit.entity.Slime;
 import org.bukkit.event.Listener;
 
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class ArenaEgine implements Listener {
@@ -29,9 +27,9 @@ public class ArenaEgine implements Listener {
 
     public void createWorldInstace(String templateName, String instaceName, Consumer<World> callback) {
         SlimePropertyMap slimePropertyMap = new SlimePropertyMap();
-        slimePropertyMap.setInt(SlimeProperties.SPAWN_X, 0);
-        slimePropertyMap.setInt(SlimeProperties.SPAWN_Y, 60);
-        slimePropertyMap.setInt(SlimeProperties.SPAWN_Z, 0);
+        slimePropertyMap.setInt(SlimeProperties.SPAWN_X, ConfigUtils.getMapSpawn().getBlockX());
+        slimePropertyMap.setInt(SlimeProperties.SPAWN_Y, ConfigUtils.getMapSpawn().getBlockY());
+        slimePropertyMap.setInt(SlimeProperties.SPAWN_Z, ConfigUtils.getMapSpawn().getBlockZ());
 
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             try {

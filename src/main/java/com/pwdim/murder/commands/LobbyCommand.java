@@ -1,6 +1,7 @@
 package com.pwdim.murder.commands;
 
 import com.pwdim.murder.Murder;
+import com.pwdim.murder.itens.LobbyItem;
 import com.pwdim.murder.utils.ConfigUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,10 +19,18 @@ public class LobbyCommand implements CommandExecutor {
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
             if (!(sender instanceof Player)){
                 sender.sendMessage(ConfigUtils.consoleError());
+                return true;
             }
             Player p = (Player) sender;
 
+            if (!ConfigUtils.inGame(p)){
+                p.sendMessage(ConfigUtils.alreadyLobby());
+                return true;
+            }
             p.teleport(ConfigUtils.getLobby());
+            LobbyItem.removeItem(p);
+
+
 
 
         return true;

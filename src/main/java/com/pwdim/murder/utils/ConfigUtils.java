@@ -1,5 +1,6 @@
 package com.pwdim.murder.utils;
 
+
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import net.minecraft.server.v1_8_R3.PlayerConnection;
@@ -8,6 +9,10 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+
+import java.util.List;
+
+import static com.pwdim.murder.itens.LobbyItem.plugin;
 
 public class ConfigUtils {
 
@@ -20,10 +25,18 @@ public class ConfigUtils {
 
     public static String noPermMSG(){
         ConfigurationSection section = Bukkit.getPluginManager().getPlugin("Murder").getConfig().getConfigurationSection("messsages");
-        String msg = section.getString("no-perm", "&cVocê precisa ser um jogador!");
+        String msg = section.getString("no-perm", "&cSem permissão!");
 
         return ColorUtil.color(msg);
     }
+
+    public static String alreadyLobby(){
+        ConfigurationSection section = Bukkit.getPluginManager().getPlugin("Murder").getConfig().getConfigurationSection("messsages");
+        String msg = section.getString("already-lobby", "&cVocẽ já esta no Lobby!");
+
+        return ColorUtil.color(msg);
+    }
+
 
     public static Integer timeLeft(){
 
@@ -37,6 +50,28 @@ public class ConfigUtils {
         String world = section.getString("lobby-world");
 
         return Bukkit.getWorld(world).getSpawnLocation();
+    }
+
+    public static Location getGameMap(){
+        ConfigurationSection section = Bukkit.getPluginManager().getPlugin("Murder").getConfig().getConfigurationSection("plugin");
+        String world = section.getString("game-map");
+
+        return Bukkit.getWorld(world).getSpawnLocation();
+    }
+
+    public static Location getMapSpawn(){
+        ConfigurationSection section = Bukkit.getPluginManager().getPlugin("Murder").getConfig().getConfigurationSection("plugin");
+        List<Double> world = section.getDoubleList("map-spawn");
+        double x = world.get(0);
+        double y = world.get(1);
+        double z = world.get(2);
+        double yawD = world.get(4);
+        float yaw = (float) yawD;
+        double pitchD = world.get(3);
+        float pitch = (float) pitchD;
+
+
+        return new Location(getGameMap().getWorld(), x, y, z, yaw, pitch);
     }
 
     public static Integer getMinPlayers(){
@@ -70,5 +105,14 @@ public class ConfigUtils {
                     PacketPlayOutTitle.EnumTitleAction.SUBTITLE, titleSub);
             connection.sendPacket(packetSub);
         }
+    }
+
+    public static boolean inGame(Player p){
+        boolean inGame = false;
+        if (plugin.getArenaManager().getActiveArenas().values().stream()
+                .anyMatch(arena -> arena.getPlayers().contains(p.getUniqueId()))){
+            inGame = true;
+        }
+        return inGame;
     }
 }
