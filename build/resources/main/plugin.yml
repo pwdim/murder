@@ -1,5 +1,5 @@
 name: Murder
-version: '1.0.1-SNAPSHOT'
+version: '1.0.0-dc0a7ef'
 main: com.pwdim.murder.Murder
 description: §aMinigame Murder
 depend:
