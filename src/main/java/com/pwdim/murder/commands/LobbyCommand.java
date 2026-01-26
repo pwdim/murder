@@ -28,12 +28,9 @@ public class LobbyCommand implements CommandExecutor {
                 return true;
             }
             p.teleport(ConfigUtils.getLobby());
-            try {
+            if (p.getInventory().contains(LobbyItem.lobbyItem())){
                 LobbyItem.removeItem(p);
-            } catch (Exception e) {
-                return false;
             }
-
 
 
 

@@ -8,7 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameStartCountdownTask extends BukkitRunnable {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
     private final Arena arena;
 
     public GameStartCountdownTask(GameManager gameManager, Arena arena){
@@ -17,7 +17,7 @@ public class GameStartCountdownTask extends BukkitRunnable {
     }
 
 
-    private int timeLeft = ConfigUtils.timeLeft() + 1;
+    private int timeLeft = ConfigUtils.timeLeft();
     @Override
     public void run() {
         timeLeft--;
@@ -32,7 +32,8 @@ public class GameStartCountdownTask extends BukkitRunnable {
             cancel();
             gameManager.setGameState(arena, GameState.PLAYING);
         }
-        arena.broadcastArena("&b" + timeLeft + " &esegundos para o jogo iniciar!");
+        int btimeLeft = timeLeft + 1;
+        arena.broadcastArena("&b" + btimeLeft + " &esegundos para o jogo iniciar!");
 
     }
 }
