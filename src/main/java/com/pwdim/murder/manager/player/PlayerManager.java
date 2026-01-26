@@ -44,7 +44,7 @@ public class PlayerManager {
             player.sendMessage(ColorUtil.color("&aConectando..."));
 
 
-            manager.setupNewArena(ConfigUtils.getGameMap().getWorld().getName(), (newArena) -> {
+            manager.setupNewArena(ConfigUtils.getGameMap(), (newArena) -> {
                 teleportToArena(player, newArena);
                 LobbyItem.giveItem(player);
                 checkStart(newArena);

@@ -1,6 +1,7 @@
 package com.pwdim.murder.utils;
 
 
+import com.pwdim.murder.Murder;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import net.minecraft.server.v1_8_R3.PlayerConnection;
@@ -12,9 +13,13 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-import static com.pwdim.murder.itens.LobbyItem.plugin;
-
 public class ConfigUtils {
+    private static Murder plugin;
+
+
+    public ConfigUtils(Murder plugin) {
+        this.plugin = plugin;
+    }
 
     public static String consoleError(){
         ConfigurationSection section = Bukkit.getPluginManager().getPlugin("Murder").getConfig().getConfigurationSection("messsages");
@@ -52,11 +57,11 @@ public class ConfigUtils {
         return Bukkit.getWorld(world).getSpawnLocation();
     }
 
-    public static Location getGameMap(){
+    public static String getGameMap(){
         ConfigurationSection section = Bukkit.getPluginManager().getPlugin("Murder").getConfig().getConfigurationSection("plugin");
-        String world = section.getString("game-map");
 
-        return Bukkit.getWorld(world).getSpawnLocation();
+
+        return section.getString("game-map", "academy");
     }
 
     public static Location getMapSpawn(){
@@ -71,7 +76,7 @@ public class ConfigUtils {
         float pitch = (float) pitchD;
 
 
-        return new Location(getGameMap().getWorld(), x, y, z, yaw, pitch);
+        return new Location(Bukkit.getWorld(getGameMap()), x, y, z, yaw, pitch);
     }
 
     public static Integer getMinPlayers(){
@@ -108,11 +113,7 @@ public class ConfigUtils {
     }
 
     public static boolean inGame(Player p){
-        boolean inGame = false;
-        if (plugin.getArenaManager().getActiveArenas().values().stream()
-                .anyMatch(arena -> arena.getPlayers().contains(p.getUniqueId()))){
-            inGame = true;
-        }
-        return inGame;
+        return plugin.getArenaManager().getActiveArenas().values().stream()
+                .anyMatch(arena -> arena.getPlayers().contains(p.getUniqueId()));
     }
 }
