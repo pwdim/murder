@@ -24,7 +24,7 @@ public class ArenaManager {
     }
 
     public void setupNewArena(String mapName, Consumer<Arena> callback){
-        String arenaID = "arena_" + System.currentTimeMillis();
+        String arenaID = mapName+"_" + System.currentTimeMillis();
 
         arenaEgine.createWorldInstace(mapName, arenaID, world -> {
             Arena arena = new Arena(arenaID, mapName, world);

@@ -35,13 +35,13 @@ public class GameManager {
                 arena.getPlayers().forEach(uuid -> LobbyItem.giveItem(Bukkit.getPlayer(uuid)));
                 break;
             case STARTING:
-                new GameStartCountdownTask(this, arena).runTaskTimer(plugin, 0, 20);
+                new GameStartCountdownTask(this, arena).runTaskTimer(plugin, 0, 19);
                 break;
             case PLAYING:
                 Bukkit.getScheduler().runTaskLater(plugin, () -> {
                     arena.getPlayers().forEach(uuid -> LobbyItem.removeItem(Bukkit.getPlayer(uuid)));
                     arena.broadcastArena("&aO jogo iniciou!");
-                }, 20L);
+                }, 25L);
                 break;
             case ENDING:
                 arena.titleArena("&c&lFIM DE JOGO!", "&eObrigado por jogar!", 1, 1000, 300);
