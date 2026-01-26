@@ -21,8 +21,11 @@ public class GameStartCountdownTask extends BukkitRunnable {
     @Override
     public void run() {
         timeLeft--;
+        if (arena.getState() != GameState.STARTING) {
+            cancel();
+        }
         if (timeLeft <= 3 && timeLeft >= 1){
-            arena.titleArena("&c" + timeLeft, null, 1, 20, 20);
+            arena.titleArena("&c" + timeLeft, null, 1, 20, 1);
         }
 
         if (timeLeft <= 1){
