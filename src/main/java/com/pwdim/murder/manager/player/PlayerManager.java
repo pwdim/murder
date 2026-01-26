@@ -56,6 +56,7 @@ public class PlayerManager {
         Bukkit.getScheduler().runTask(plugin, () -> {
             arena.getPlayers().remove(player.getUniqueId());
             player.teleport(ConfigUtils.getLobby());
+            LobbyItem.removeItem(player);
 
             arena.broadcastArena("&b" + player.getName() + " &esaiu da partida &7(&a" + arena.getPlayers().size() + "/"+ConfigUtils.getMaxPLayers()+"&7)");
         });

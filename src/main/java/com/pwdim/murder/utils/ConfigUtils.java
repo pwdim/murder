@@ -113,7 +113,11 @@ public class ConfigUtils {
     }
 
     public static boolean inGame(Player p){
-        return plugin.getArenaManager().getActiveArenas().values().stream()
-                .anyMatch(arena -> arena.getPlayers().contains(p.getUniqueId()));
+        boolean inGame = false;
+        if (plugin.getArenaManager().getActiveArenas().values().stream()
+                .anyMatch(arena -> arena.getPlayers().contains(p.getUniqueId()))){
+            inGame = true;
+        }
+        return inGame;
     }
 }
