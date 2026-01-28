@@ -1,9 +1,6 @@
 package com.pwdim.murder;
 
-import com.pwdim.murder.commands.GameCommand;
-import com.pwdim.murder.commands.LobbyCommand;
-import com.pwdim.murder.commands.PlayCommand;
-import com.pwdim.murder.commands.RoomManagerCommand;
+import com.pwdim.murder.commands.*;
 import com.pwdim.murder.itens.LobbyItem;
 import com.pwdim.murder.itens.RoomItem;
 import com.pwdim.murder.listeners.BuildListeners;
@@ -39,7 +36,9 @@ public final class Murder extends JavaPlugin {
         getCommand("game").setExecutor(new GameCommand(this, gameManager));
         getCommand("murder").setExecutor(new PlayCommand(this));
         getCommand("lobby").setExecutor(new LobbyCommand(this));
-        getCommand("rooms").setExecutor(new RoomManagerCommand());
+        getCommand("rooms").setExecutor(new RoomListCommand());
+        getCommand("roomcreate").setExecutor(new RoomCreateCommand(this));
+        getCommand("roomremove").setExecutor(new RoomDeleteCommand(this));
 
         logger("&bO plugin foi iniciado com sucesso");
     }

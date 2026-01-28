@@ -34,35 +34,41 @@ public class RoomItem implements Listener {
                 break;
             case STARTING:
                 state = "&aIniciando";
-                item = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 4);
+                item = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5);
                 break;
             case PLAYING:
                 state = "&2Jogando";
-                item = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 4);
+                item = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 13);
                 break;
             case ENDING:
                 state = "&6Finalizando";
-                item = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 4);
+                item = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 1);
                 break;
             case RESTARTING:
                 state = "&cReiniciando";
-                item = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 4);
+                item = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
                 break;
         }
-        lore.add(ColorUtil.color("&bMapa: &a" + arena.getMapName()));
-        lore.add(ColorUtil.color("&bJogadores: &a" + arena.getPlayers().size() + "&b/" + ConfigUtils.getMaxPLayers()));
-        lore.add(ColorUtil.color("&bStatus: " + state));
+        lore.add(ColorUtil.color("&eMapa: &a" + arena.getMapName()));
+        lore.add(ColorUtil.color("&eJogadores: &a" + arena.getPlayers().size() + "&e/&a" + ConfigUtils.getMaxPLayers()));
+        lore.add(ColorUtil.color("&eStatus: " + state));
 
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ColorUtil.color("&b&o" + arena.getId()));
         meta.setLore(lore);
         item.setItemMeta(meta);
 
-        if (item != null){
-            return item;
-        } else {
-            return new ItemStack(Material.BEDROCK, 1, (short) 4);
-        }
+        return item;
+    }
+
+    public static ItemStack nullItem(){
+        ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 7);
+        ItemMeta meta = item.getItemMeta();
+
+        meta.setDisplayName(ColorUtil.color("&cNenhuma sala encontrada!"));
+        item.setItemMeta(meta);
+
+        return item;
     }
 
     public static Inventory roomMenuInventory(){
@@ -71,7 +77,11 @@ public class RoomItem implements Listener {
 
         plugin.getArenaManager().getActiveArenas()
                 .forEach((s, arena) -> {
-                    inventory.setItem(arenaItemCount+1, roomItem(arena));
+                    if (plugin.getArenaManager().getActiveArenas().isEmpty()){
+                        inventory.setItem(21, nullItem());
+                    } else {
+                        inventory.setItem(arenaItemCount+1, roomItem(arena));
+                    }
                 });
 
 

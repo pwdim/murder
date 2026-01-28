@@ -32,3 +32,17 @@ commands:
       - manageroom
       - salas
       - rmenu
+  roomcreate:
+    description: Criar salas
+    permission: arcade.manage
+    aliases:
+      - createroom
+      - criarsala
+      - novasala
+  roomremove:
+    description: Remover salas
+    permission: arcade.manage
+    aliases:
+      - removeroom
+      - removersala
+      - droproom

@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class RoomManagerCommand implements CommandExecutor {
+public class RoomListCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command CMD, String label, String[] args) {
 
