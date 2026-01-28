@@ -8,32 +8,31 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomInventory {
 
-    private static Murder plugin;
-    private static final int itemPerPage = 28;
+    private final Murder plugin;
+    private static final int ITEMS_PER_PAGE = 28;
 
     public RoomInventory(Murder plugin){
         this.plugin = plugin;
     }
 
-    public static Inventory roomMenuInventory(int page){
-        Inventory inventory = Bukkit.createInventory(null, 54, ColorUtil.color("&bMenu de salas &e" + page + 1));
-        List<Arena> arenaList = new ArrayList<>();
-        plugin.getArenaManager().getActiveArenas().forEach((s, arena) -> arenaList.add(arena));
+    public Inventory getInventory(int page){
+        Inventory inventory = Bukkit.createInventory(null, 54, ColorUtil.color("&bMenu de salas &7- Pág: &e" + (page + 1)));
+
+        List<Arena> arenaList = new ArrayList<>(plugin.getArenaManager().getActiveArenas().values());
 
         if (arenaList.isEmpty()){
             inventory.setItem(22, RoomItem.nullItem());
             return inventory;
         }
 
-        int startIndex = page * itemPerPage;
-        int endIndex = Math.min(startIndex + itemPerPage, arenaList.size());
+        int startIndex = page * ITEMS_PER_PAGE;
+        int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, arenaList.size());
 
         int slot = 10;
-        for (int i = startIndex; i <endIndex; i++){
+        for (int i = startIndex; i < endIndex; i++){
             if ((slot + 1) % 9 == 0) slot += 2;
 
             inventory.setItem(slot, RoomItem.roomItem(arenaList.get(i)));
@@ -46,10 +45,10 @@ public class RoomInventory {
         if (endIndex < arenaList.size()){
             inventory.setItem(53, RoomItem.nextPageItem());
         }
+
         return inventory;
     }
-
-//    public static Inventory roomMenuInventory(){
+    //    public static Inventory roomMenuInventory(){
 //        Inventory inventory = Bukkit.createInventory(null, 54, ColorUtil.color("&eMenu de Salas"));
 //        AtomicInteger arenaItemCount = new AtomicInteger(9);
 //
