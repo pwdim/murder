@@ -2,6 +2,7 @@ package com.pwdim.murder.utils;
 
 import org.bukkit.ChatColor;
 
+
 public class ColorUtil {
 
 
@@ -15,4 +16,5 @@ public class ColorUtil {
 
         return ChatColor.translateAlternateColorCodes('&', msg);
     }
+
 }

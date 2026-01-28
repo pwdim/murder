@@ -6,7 +6,6 @@ import com.pwdim.murder.manager.arena.Arena;
 import com.pwdim.murder.manager.arena.ArenaManager;
 import com.pwdim.murder.manager.game.GameManager;
 import com.pwdim.murder.manager.game.GameState;
-import com.pwdim.murder.tasks.GameStartCountdownTask;
 import com.pwdim.murder.utils.ColorUtil;
 import com.pwdim.murder.utils.ConfigUtils;
 import org.bukkit.Bukkit;
@@ -60,9 +59,12 @@ public class PlayerManager {
             player.teleport(ConfigUtils.getLobby());
             LobbyItem.removeItem(player);
 
+
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                arena.broadcastArena("&b" + player.getName() + " &esaiu da partida &7(&a" + arena.getPlayers().size() + "/"+ConfigUtils.getMaxPLayers()+"&7)");
-            }, 23L);
+                if (arena.getState() == GameState.WAITING || arena.getState() == GameState.STARTING){
+                    arena.broadcastArena("&b" + player.getName() + " &esaiu da partida &7(&a" + arena.getPlayers().size() + "/"+ConfigUtils.getMaxPLayers()+"&7)");
+                }
+                }, 23L);
             checkStart(arena);
         });
     }

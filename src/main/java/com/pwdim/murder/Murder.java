@@ -3,7 +3,9 @@ package com.pwdim.murder;
 import com.pwdim.murder.commands.GameCommand;
 import com.pwdim.murder.commands.LobbyCommand;
 import com.pwdim.murder.commands.PlayCommand;
+import com.pwdim.murder.commands.RoomManagerCommand;
 import com.pwdim.murder.itens.LobbyItem;
+import com.pwdim.murder.itens.RoomItem;
 import com.pwdim.murder.listeners.BuildListeners;
 import com.pwdim.murder.manager.arena.ArenaEgine;
 import com.pwdim.murder.manager.arena.ArenaManager;
@@ -11,12 +13,9 @@ import com.pwdim.murder.manager.game.GameManager;
 import com.pwdim.murder.manager.player.PlayerManager;
 import com.pwdim.murder.utils.ColorUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Murder extends JavaPlugin {
-
-    private String prefix;
 
     private GameManager gameManager;
     private ArenaManager arenaManager;
@@ -35,10 +34,12 @@ public final class Murder extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BuildListeners(gameManager), this);
         getServer().getPluginManager().registerEvents(new ArenaEgine(this), this);
         getServer().getPluginManager().registerEvents(new LobbyItem(this), this);
+        getServer().getPluginManager().registerEvents(new RoomItem(this), this);
 
         getCommand("game").setExecutor(new GameCommand(this, gameManager));
         getCommand("murder").setExecutor(new PlayCommand(this));
         getCommand("lobby").setExecutor(new LobbyCommand(this));
+        getCommand("rooms").setExecutor(new RoomManagerCommand());
 
         logger("&bO plugin foi iniciado com sucesso");
     }

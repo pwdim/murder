@@ -23,3 +23,12 @@ commands:
       - hub
       - leave
       - back
+  rooms:
+    description: Gerenciar salas
+    permission: arcade.manage
+    aliases:
+      - roommaanager
+      - arenalist
+      - manageroom
+      - salas
+      - rmenu
