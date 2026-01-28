@@ -36,7 +36,7 @@ public final class Murder extends JavaPlugin {
         getCommand("game").setExecutor(new GameCommand(this, gameManager));
         getCommand("murder").setExecutor(new PlayCommand(this));
         getCommand("lobby").setExecutor(new LobbyCommand(this));
-        getCommand("rooms").setExecutor(new RoomListCommand());
+        getCommand("rooms").setExecutor(new RoomListCommand(this));
         getCommand("roomcreate").setExecutor(new RoomCreateCommand(this));
         getCommand("roomremove").setExecutor(new RoomDeleteCommand(this));
 

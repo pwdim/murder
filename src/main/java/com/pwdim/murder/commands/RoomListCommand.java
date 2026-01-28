@@ -1,5 +1,6 @@
 package com.pwdim.murder.commands;
 
+import com.pwdim.murder.Murder;
 import com.pwdim.murder.manager.room.RoomInventory;
 import com.pwdim.murder.manager.room.RoomItem;
 import com.pwdim.murder.utils.ConfigUtils;
@@ -8,7 +9,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+
 public class RoomListCommand implements CommandExecutor {
+
+    public final Murder plugin;
+
+    public RoomListCommand(Murder plugin){
+        this.plugin = plugin;
+    }
     @Override
     public boolean onCommand(CommandSender sender, Command CMD, String label, String[] args) {
 
@@ -24,7 +32,9 @@ public class RoomListCommand implements CommandExecutor {
             return true;
         }
 
-        p.openInventory(RoomInventory.roomMenuInventory(1));
+        RoomInventory gui = new RoomInventory(plugin);
+        p.openInventory(gui.getInventory(0));
+
         p.updateInventory();
         return false;
     }

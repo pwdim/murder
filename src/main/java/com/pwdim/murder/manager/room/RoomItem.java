@@ -101,11 +101,12 @@ public class RoomItem implements Listener {
         event.setCancelled(true);
         Player player = (Player) event.getWhoClicked();
         int currentPage = Integer.parseInt(event.getInventory().getTitle().replaceAll("[^0-9]", "")) - 1;
+        RoomInventory gui = new RoomInventory(plugin);
 
         if (event.getSlot() == 53 && event.getCurrentItem().getType() != Material.AIR) {
-            player.openInventory(RoomInventory.roomMenuInventory(currentPage + 1));
+            player.openInventory(gui.getInventory(currentPage + 1));
         } else if (event.getSlot() == 45 && event.getCurrentItem().getType() != Material.AIR) {
-            player.openInventory(RoomInventory.roomMenuInventory(currentPage - 1));
+            player.openInventory(gui.getInventory(currentPage - 1));
         }
     }
 
