@@ -12,7 +12,6 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.UUID;
 
 public class ConfigUtils {
     private static Murder plugin;
@@ -23,7 +22,7 @@ public class ConfigUtils {
     }
 
     public static String consoleError(){
-        ConfigurationSection section = Bukkit.getPluginManager().getPlugin("Murder").getConfig().getConfigurationSection("messages");
+        ConfigurationSection section = plugin.getConfig().getConfigurationSection("messages");
         String msg = section.getString("console-error", "&cVocê precisa ser um jogador!");
 
         return ColorUtil.color(msg);
@@ -113,7 +112,10 @@ public class ConfigUtils {
         }
     }
 
-    public static boolean inGame(Player p){
+    public boolean inGame(Player p){
+        if (plugin == null || plugin.getArenaManager() == null){
+            return false;
+        }
         return plugin.getArenaManager().searchPlayer(p);
     }
 }
