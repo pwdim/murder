@@ -69,6 +69,23 @@ public class PlayerManager {
         });
     }
 
+    public void sendToLobby(Player player){
+        Arena arena = plugin.getArenaManager().getPlayerArena(player);
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            arena.getPlayers().remove(player.getUniqueId());
+            player.teleport(ConfigUtils.getLobby());
+            LobbyItem.removeItem(player);
+
+
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                if (arena.getState() == GameState.WAITING || arena.getState() == GameState.STARTING){
+                    arena.broadcastArena("&b" + player.getName() + " &esaiu da partida &7(&a" + arena.getPlayers().size() + "/"+ConfigUtils.getMaxPLayers()+"&7)");
+                }
+            }, 23L);
+            checkStart(arena);
+        });
+    }
+
     private void teleportToArena(Player player, Arena arena){
         Bukkit.getScheduler().runTask(plugin, () -> {
             player.teleport(arena.getWorld().getSpawnLocation());

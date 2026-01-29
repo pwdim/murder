@@ -61,7 +61,14 @@ public class ArenaManager {
         return activeArenas;
     }
 
-    public boolean searchPlayer(Player player){
+    public boolean checkInGame(Player player){
         return getActiveArenas().values().stream().anyMatch(arena -> arena.getPlayers().contains(player.getUniqueId()));
+    }
+
+    public Arena getPlayerArena(Player p){
+        return plugin.getArenaManager().getActiveArenas().values().stream()
+                .filter(arena -> arena.getPlayers().contains(p.getUniqueId()))
+                .findAny()
+                .orElse(null);
     }
 }

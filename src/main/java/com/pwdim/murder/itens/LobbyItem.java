@@ -51,9 +51,7 @@ public class LobbyItem implements Listener {
 
         if (item.getType() == Material.BED){
             if (item.getItemMeta().equals(lobbyItem().getItemMeta())) {
-                plugin.getArenaManager().getActiveArenas().values().stream()
-                        .filter(arena -> arena.getPlayers().contains(p.getUniqueId()))
-                        .findAny().ifPresent(playerArena -> plugin.getPlayerManager().sendToLobby(p, playerArena));
+                plugin.getPlayerManager().sendToLobby(p);
             }
 
         }

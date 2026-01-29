@@ -116,6 +116,6 @@ public class ConfigUtils {
         if (plugin == null || plugin.getArenaManager() == null){
             return false;
         }
-        return plugin.getArenaManager().searchPlayer(p);
+        return plugin.getArenaManager().checkInGame(p);
     }
 }
