@@ -9,6 +9,7 @@ import com.pwdim.murder.manager.arena.ArenaManager;
 import com.pwdim.murder.manager.game.GameManager;
 import com.pwdim.murder.manager.player.PlayerManager;
 import com.pwdim.murder.utils.ColorUtil;
+import com.pwdim.murder.utils.ConfigUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,6 +22,7 @@ public final class Murder extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        new ConfigUtils(this);
 
         this.arenaManager = new ArenaManager(this);
 
