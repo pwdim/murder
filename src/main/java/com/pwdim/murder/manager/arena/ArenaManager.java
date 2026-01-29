@@ -60,4 +60,8 @@ public class ArenaManager {
     public Map<String, Arena> getActiveArenas() {
         return activeArenas;
     }
+
+    public boolean searchPlayer(Player player){
+        return getActiveArenas().values().stream().anyMatch(arena -> arena.getPlayers().contains(player.getUniqueId()));
+    }
 }

@@ -12,6 +12,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ConfigUtils {
     private static Murder plugin;
@@ -113,11 +114,6 @@ public class ConfigUtils {
     }
 
     public static boolean inGame(Player p){
-        boolean inGame = false;
-        if (plugin.getArenaManager().getActiveArenas().values().stream()
-                .anyMatch(arena -> arena.getPlayers().contains(p.getUniqueId()))){
-            inGame = true;
-        }
-        return inGame;
+        return plugin.getArenaManager().searchPlayer(p);
     }
 }
