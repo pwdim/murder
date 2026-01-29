@@ -27,10 +27,9 @@ public class LobbyCommand implements CommandExecutor {
                 p.sendMessage(ConfigUtils.alreadyLobby());
                 return true;
             }
-            p.teleport(ConfigUtils.getLobby());
-            if (p.getInventory().contains(LobbyItem.lobbyItem())){
-                LobbyItem.removeItem(p);
-            }
+
+            plugin.getPlayerManager().sendToLobby(p);
+            if (p.getInventory().contains(LobbyItem.lobbyItem())) LobbyItem.removeItem(p);
 
 
 
