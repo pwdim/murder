@@ -29,14 +29,17 @@ public class RoomDeleteCommand implements CommandExecutor {
             return true;
         }
         String arenaID = args[0];
-
         ArenaManager manager = plugin.getArenaManager();
-        try {
-            manager.finishArena(arenaID);
-            p.sendMessage(ColorUtil.color("&b&o" + arenaID + " &cremovida com sucesso!"));
-        } catch (Exception e) {
-            p.sendMessage(ColorUtil.color("&cNão foi possível deletar a Arena : &c&o" + e.getMessage()));
-        }
+
+        manager.finishArena(arenaID, (arena) -> {
+            try {
+                p.sendMessage(ColorUtil.color("&bArena " + arenaID + " finalizada com sucesso!"));
+            } catch (Exception e) {
+                p.sendMessage(ColorUtil.color("&cErro ao processar a finalização da arena."));
+                p.sendMessage(ColorUtil.color("&4&o" + e.getMessage()));
+            }
+        });
+
 
 
 

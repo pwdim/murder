@@ -57,6 +57,29 @@ public class ArenaManager {
         setupNewArena(template, null);
     }
 
+    public void finishArena(String arenaID, Consumer<Arena> callback) {
+        Arena arena = activeArenas.get(arenaID);
+        if (arena == null) return;
+
+        String template = arena.getMapName();
+
+        arena.getPlayers().forEach(uuid -> {
+            Player p = Bukkit.getPlayer(uuid);
+            if (p != null) {
+                p.teleport(ConfigUtils.getLobby());
+            }
+        });
+
+        arenaEgine.deleteWorldInstace(arenaID);
+        activeArenas.remove(arenaID);
+
+        setupNewArena(template, null);
+
+        if (callback != null) {
+            callback.accept(arena);
+        }
+    }
+
     public Map<String, Arena> getActiveArenas() {
         return activeArenas;
     }

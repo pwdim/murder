@@ -36,8 +36,13 @@ public class RoomCreateCommand implements CommandExecutor {
         String mapName = args[0];
 
         ArenaManager manager = plugin.getArenaManager();
-        manager.setupNewArena(mapName, (newArena) ->{
-            p.sendMessage(ColorUtil.color("&bArena criada com sucesso!"));
+        manager.setupNewArena(mapName, (newArena) -> {
+            try {
+                p.sendMessage(ColorUtil.color("&bArena criada com sucesso!"));
+            } catch (Exception e) {
+                p.sendMessage(ColorUtil.color("&cErro ao finalizar a arena. "));
+                p.sendMessage(ColorUtil.color("&4&o" + e.getMessage()));
+            }
         });
 
 
