@@ -28,7 +28,7 @@ public class RoomCreateCommand implements CommandExecutor {
         if (args.length == 0){
             ArenaManager manager = plugin.getArenaManager();
             manager.setupNewArena(ConfigUtils.getGameMap(), (newArena) ->{
-                p.sendMessage(ColorUtil.color("&bArena criada com sucesso!"));
+                p.sendMessage(ColorUtil.color("&bArena &a" + newArena.getId()+" &bcriada com sucesso!"));
             });
 
             return true;
@@ -36,9 +36,20 @@ public class RoomCreateCommand implements CommandExecutor {
         String mapName = args[0];
 
         ArenaManager manager = plugin.getArenaManager();
-        manager.setupNewArena(mapName, (newArena) ->{
-            p.sendMessage(ColorUtil.color("&bArena criada com sucesso!"));
-        });
+        try{
+            manager.setupNewArena(mapName, (newArena) -> {
+                try {
+                    p.sendMessage(ColorUtil.color("&bArena &a" + newArena.getId()+" &b criada com sucesso!"));
+                } catch (Exception e) {
+                    p.sendMessage(ColorUtil.color("&cErro ao finalizar a arena. "));
+                    p.sendMessage(ColorUtil.color("&4&o" + e.getMessage()));
+                }
+            });
+
+        } catch (Exception e) {
+            p.sendMessage(ColorUtil.color("&cErro ao finalizar a arena. "));
+            p.sendMessage(ColorUtil.color("&4&o" + e.getMessage()));
+        }
 
 
 

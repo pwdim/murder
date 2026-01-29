@@ -27,7 +27,7 @@ commands:
     description: Gerenciar salas
     permission: arcade.manage
     aliases:
-      - roommaanager
+      - room
       - arenalist
       - manageroom
       - salas
@@ -43,6 +43,8 @@ commands:
     description: Remover salas
     permission: arcade.manage
     aliases:
+      - roomdelete
+      - roomremove
       - removeroom
       - removersala
       - droproom
