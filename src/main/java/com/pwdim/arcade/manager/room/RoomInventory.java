@@ -3,23 +3,27 @@ package com.pwdim.arcade.manager.room;
 import com.pwdim.arcade.Arcade;
 import com.pwdim.arcade.manager.arena.Arena;
 import com.pwdim.arcade.utils.ColorUtil;
+import com.pwdim.arcade.utils.NMSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class RoomInventory {
 
-    private final Arcade plugin;
+    private static Arcade plugin;
     private static final int ITEMS_PER_PAGE = 28;
 
     public RoomInventory(Arcade plugin){
         this.plugin = plugin;
     }
 
-    public Inventory getInventory(int page){
-        Inventory inventory = Bukkit.createInventory(null, 54, ColorUtil.color("&bMenu de salas  &aPág: " + (page + 1)));
+    public static Inventory getInventory(int page){
+        Inventory inventory = Bukkit.createInventory(null, 54, ColorUtil.color("Menu de salas  (" + (page + 1) +")"));
 
         List<Arena> arenaList = new ArrayList<>(plugin.getArenaManager().getActiveArenas().values());
 
@@ -34,8 +38,11 @@ public class RoomInventory {
         int slot = 10;
         for (int i = startIndex; i < endIndex; i++){
             if ((slot + 1) % 9 == 0) slot += 2;
+            Arena checkArena = arenaList.get(i);
+            ItemStack item = RoomItem.roomItem(checkArena);
+            item = NMSUtils.setCustomNBT(item, "arenaID", checkArena.getId());
+            inventory.setItem(slot, item);
 
-            inventory.setItem(slot, RoomItem.roomItem(arenaList.get(i)));
             slot++;
         }
 
@@ -48,20 +55,5 @@ public class RoomInventory {
 
         return inventory;
     }
-    //    public static Inventory roomMenuInventory(){
-//        Inventory inventory = Bukkit.createInventory(null, 54, ColorUtil.color("&eMenu de Salas"));
-//        AtomicInteger arenaItemCount = new AtomicInteger(9);
-//
-//        if (plugin.getArenaManager().getActiveArenas().isEmpty()) {
-//            inventory.setItem(21, RoomItem.nullItem());
-//        } else {
-//            plugin.getArenaManager().getActiveArenas()
-//                    .forEach((s, arena) -> {
-//                        arenaItemCount.getAndIncrement();
-//                        inventory.setItem(arenaItemCount.get(), RoomItem.roomItem(arena));
-//                    });
-//        }
-//
-//        return inventory;
-//    }
+
 }

@@ -70,19 +70,19 @@ public class PlayerManager {
     }
 
     public void sendToLobby(Player player){
-        Arena arena = plugin.getArenaManager().getPlayerArena(player);
+        Arena checkArena = plugin.getArenaManager().getPlayerArena(player);
         Bukkit.getScheduler().runTask(plugin, () -> {
-            arena.getPlayers().remove(player.getUniqueId());
+            checkArena.getPlayers().remove(player.getUniqueId());
             player.teleport(ConfigUtils.getLobby());
             LobbyItem.removeItem(player);
 
 
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                if (arena.getState() == GameState.WAITING || arena.getState() == GameState.STARTING){
-                    arena.broadcastArena("&b" + player.getName() + " &esaiu da partida &7(&a" + arena.getPlayers().size() + "/"+ConfigUtils.getMaxPLayers()+"&7)");
+                if (checkArena.getState() == GameState.WAITING || checkArena.getState() == GameState.STARTING){
+                    checkArena.broadcastArena("&b" + player.getName() + " &esaiu da partida &7(&a" + checkArena.getPlayers().size() + "/"+ConfigUtils.getMaxPLayers()+"&7)");
                 }
             }, 23L);
-            checkStart(arena);
+            checkStart(checkArena);
         });
     }
 

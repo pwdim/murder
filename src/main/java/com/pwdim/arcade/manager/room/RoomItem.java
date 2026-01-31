@@ -4,6 +4,7 @@ import com.pwdim.arcade.Arcade;
 import com.pwdim.arcade.manager.arena.Arena;
 import com.pwdim.arcade.utils.ColorUtil;
 import com.pwdim.arcade.utils.ConfigUtils;
+import com.pwdim.arcade.utils.NMSUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -95,16 +96,30 @@ public class RoomItem implements Listener {
     }
 
     @EventHandler
-    public void onClick(InventoryClickEvent event) {
-        event.setCancelled(true);
-        Player player = (Player) event.getWhoClicked();
-        int currentPage = Integer.parseInt(event.getInventory().getTitle().replaceAll("[^0-9]", "")) - 1;
+    public void onClick(InventoryClickEvent e) {
+        e.setCancelled(true);
+        Player player = (Player) e.getWhoClicked();
+        int currentPage = Integer.parseInt(e.getInventory().getTitle().replaceAll("[^0-9]", "")) - 1;
         RoomInventory gui = new RoomInventory(plugin);
 
-        if (event.getSlot() == 53 && event.getCurrentItem().equals(nextPageItem())) {
+        if (e.getSlot() == 53 && e.getCurrentItem().equals(nextPageItem())) {
             player.openInventory(gui.getInventory(currentPage + 1));
-        } else if (event.getSlot() == 45 && event.getCurrentItem().equals(backPageItem())) {
+        } else if (e.getSlot() == 45 && e.getCurrentItem().equals(backPageItem())) {
             player.openInventory(gui.getInventory(currentPage - 1));
+        }
+    }
+
+    @EventHandler
+    public void onPlayerClick(InventoryClickEvent event) {
+        ItemStack item = event.getCurrentItem();
+        if (item == null || !item.hasItemMeta()) return;
+
+        String action = NMSUtils.getCustomNBT(item, "action");
+        String arenaID = NMSUtils.getCustomNBT(item, "manageArenaID");
+
+        if ("confirm_delete".equals(action)) {
+            event.getWhoClicked().sendMessage("§cArena " + arenaID + " removida com sucesso!");
+            event.getWhoClicked().closeInventory();
         }
     }
 

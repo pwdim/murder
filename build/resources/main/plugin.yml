@@ -1,7 +1,7 @@
-name: Murder
-version: '1.0.0-da3ab93'
-main: com.pwdim.murder.Murder
-description: §aMinigame Murder
+name: Arcade
+version: '1.0.0-33b33e1'
+main: com.pwdim.arcade.Arcade
+description: §bMinigame Arcade
 depend:
   - SlimeWorldManager
 commands:
@@ -27,8 +27,24 @@ commands:
     description: Gerenciar salas
     permission: arcade.manage
     aliases:
-      - roommaanager
+      - room
       - arenalist
       - manageroom
       - salas
       - rmenu
+  roomcreate:
+    description: Criar salas
+    permission: arcade.manage
+    aliases:
+      - createroom
+      - criarsala
+      - novasala
+  roomremove:
+    description: Remover salas
+    permission: arcade.manage
+    aliases:
+      - roomdelete
+      - roomremove
+      - removeroom
+      - removersala
+      - droproom
