@@ -124,7 +124,7 @@ public class RoomItem implements Listener {
             if (arenaID != null) {
                 Arena arena = plugin.getArenaManager().getArena(arenaID);
                 if (arena != null) {
-                    player.openInventory(RoomManageInventory.manageInventory(arena));
+                    player.openInventory(RoomManageInventory.manageInventory(arena, player));
                 }
             }
         }
@@ -151,7 +151,8 @@ public class RoomItem implements Listener {
                     player.openInventory(RoomManageInventory.deleteRoomInventory(plugin.getArenaManager().getArena(manageArenaID)));
                     break;
                 case "arena_players":
-                    player.openInventory(RoomManageInventory.playersListInventory(manageArenaID));
+                    Arena arena = plugin.getArenaManager().getArena(manageArenaID);
+                    player.openInventory(RoomManageInventory.playersListInventory(arena));
                     break;
             }
         }
