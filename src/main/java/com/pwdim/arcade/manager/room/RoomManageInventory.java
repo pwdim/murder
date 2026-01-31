@@ -13,6 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +23,7 @@ public class RoomManageInventory implements Listener {
     private static Arcade plugin;
 
     public RoomManageInventory(Arcade plugin){
-        this.plugin = plugin;
+        RoomManageInventory.plugin = plugin;
     }
 
     public static ItemStack deleteRoomItem(){
@@ -119,22 +120,26 @@ public class RoomManageInventory implements Listener {
         inv.setItem(4, RoomItem.roomItem(arena));
         int i = 20;
 
-        for (UUID uuid : arena.getPlayers()){
-            Player p = Bukkit.getPlayer(uuid);
-            ItemStack head = GeralUtils.getHead(p);
-            head = NMSUtils.setCustomNBT(head, "manageArenaID", arena.getId());
-            head = NMSUtils.setCustomNBT(head, "managePlayer", p.getUniqueId().toString());
-            head = NMSUtils.setCustomNBT(head,"action", "arena_players_manage");
+        if (!arena.getPlayers().isEmpty()){
+            for (UUID uuid : arena.getPlayers()){
+                Player p = Bukkit.getPlayer(uuid);
+                ItemStack head = GeralUtils.getHead(p);
+                head = NMSUtils.setCustomNBT(head, "manageArenaID", arena.getId());
+                head = NMSUtils.setCustomNBT(head, "managePlayer", p.getUniqueId().toString());
+                head = NMSUtils.setCustomNBT(head,"action", "arena_players_manage");
 
-            inv.setItem(i, head);
-            i++;
+                inv.setItem(i, head);
+                i++;
+            }
+        } else {
+            inv.setItem(21, RoomItem.nullItem());
         }
 
 
         return inv;
     }
 
-    public static Inventory manageInventory(Arena arena){
+    public static Inventory manageInventory(Arena arena, @Nullable Player p){
         Inventory inv = Bukkit.createInventory(null, 45, ColorUtil.color("&eGerenciar Sala"));
 
         for (int i = 9; i < 18; i++) {
@@ -147,7 +152,7 @@ public class RoomManageInventory implements Listener {
         delete = NMSUtils.setCustomNBT(delete, "manageArenaID", arena.getId());
         delete = NMSUtils.setCustomNBT(delete,"action", "arena_delete");
 
-        ItemStack list = playersRoomItem(Bukkit.getPlayer(arena.getPlayers().get(0)));
+        ItemStack list = playersRoomItem(p);
         list = NMSUtils.setCustomNBT(list, "manageArenaID", arena.getId());
         list = NMSUtils.setCustomNBT(list, "action", "arena_players");
 
